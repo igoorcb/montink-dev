@@ -54,12 +54,12 @@ class Coupon extends Model
         return true;
     }
 
-    public function canBeAppliedTo(decimal $subtotal): bool
+    public function canBeAppliedTo(float $subtotal): bool
     {
         return $this->isValid() && $subtotal >= $this->min_amount;
     }
 
-    public function calculateDiscount(decimal $subtotal): decimal
+    public function calculateDiscount(float $subtotal): float
     {
         if ($this->type === 'percentage') {
             return $subtotal * ($this->value / 100);

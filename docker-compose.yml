@@ -13,6 +13,20 @@ services:
     networks:
       - montink_network
 
+  nginx:
+    image: nginx:alpine
+    container_name: montink_erp_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www
+    depends_on:
+      - app
+    networks:
+      - montink_network
+
   db:
     image: mysql:8.0
     container_name: montink_erp_db
