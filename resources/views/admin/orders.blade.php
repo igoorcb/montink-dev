@@ -41,7 +41,7 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">
-                                            {{ $order->order_number }}
+                                            #{{ $order->id }} - {{ $order->order_number }}
                                         </div>
                                         <div class="text-sm text-gray-500">
                                             {{ $order->created_at->format('d/m/Y H:i') }}
@@ -100,7 +100,7 @@
             <div class="card-body">
                 <div class="mb-4">
                     <label class="form-label">ID do Pedido</label>
-                    <input type="text" id="webhookOrderId" class="form-input" placeholder="Ex: 1">
+                    <input type="number" id="webhookOrderId" class="form-input" placeholder="Ex: 1" min="1">
                 </div>
                 
                 <div class="mb-4">
@@ -189,27 +189,26 @@ let currentOrderId = null;
 function viewOrder(orderId) {
     $.get(`/orders/${orderId}`)
     .done(function(response) {
-        if (response.success) {
+        if (response.success && response.html) {
             $('#orderDetailsContent').html(response.html);
             new bootstrap.Modal(document.getElementById('orderDetailsModal')).show();
         } else {
-            alert('Erro ao carregar detalhes do pedido');
+            alert('Erro ao carregar detalhes do pedido: ' + (response.message || 'Resposta inválida'));
         }
     })
-    .fail(function() {
-        alert('Erro ao carregar detalhes do pedido');
+    .fail(function(xhr) {
+        console.error('Erro na requisição:', xhr);
+        alert('Erro ao carregar detalhes do pedido: ' + (xhr.responseJSON?.message || 'Erro de conexão'));
     });
 }
 
 function testWebhook(orderId) {
     currentOrderId = orderId;
     
-    // Buscar o status atual do pedido
     $.get(`/orders/${orderId}`)
     .done(function(response) {
         if (response.success) {
-            // Extrair o status atual do HTML
-            const statusMatch = response.html.match(/Status.*?<span[^>]*>([^<]+)<\/span>/i);
+            const statusMatch = response.html.match(/Status.*?<span[^>]*class="[^"]*badge[^"]*"[^>]*>([^<]+)<\/span>/i);
             const currentStatus = statusMatch ? statusMatch[1].toLowerCase() : 'pending';
             
             $('#editOrderId').val(orderId);
@@ -250,7 +249,12 @@ function testWebhookManual() {
         return;
     }
     
-    sendWebhook(orderId, status);
+    if (!Number.isInteger(parseInt(orderId)) || parseInt(orderId) <= 0) {
+        alert('O ID do pedido deve ser um número inteiro positivo');
+        return;
+    }
+    
+    sendWebhook(parseInt(orderId), status);
 }
 
 function sendWebhook(orderId, status) {
@@ -262,7 +266,6 @@ function sendWebhook(orderId, status) {
             status: status
         },
         headers: {
-            'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
     })

@@ -73,7 +73,7 @@
             <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
             
             <h4>Itens do Pedido:</h4>
-            @foreach($items as $item)
+            @foreach($order->items as $item)
             <div class="item">
                 <span>{{ $item->product->name }} @if($item->variation)({{ $item->variation }})@endif x {{ $item->quantity }}</span>
                 <span>R$ {{ number_format($item->total_price, 2, ',', '.') }}</span>

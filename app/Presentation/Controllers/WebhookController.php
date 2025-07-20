@@ -2,58 +2,43 @@
 
 namespace App\Presentation\Controllers;
 
-use App\Domain\Entities\Order;
-use Illuminate\Http\Request;
+use App\Application\UseCases\UpdateOrderStatusUseCase;
+use App\Application\DTOs\UpdateOrderStatusDTO;
+use App\Presentation\Requests\UpdateOrderStatusRequest;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 class WebhookController extends Controller
 {
-    public function updateOrderStatus(Request $request): JsonResponse
+    public function __construct(
+        private UpdateOrderStatusUseCase $updateOrderStatusUseCase
+    ) {}
+
+    public function updateOrderStatus(UpdateOrderStatusRequest $request): JsonResponse
     {
-        $request->validate([
-            'order_id' => 'required|integer',
-            'status' => 'required|string|in:pending,confirmed,shipped,delivered,cancelled'
-        ]);
+        try {
+            $orderData = UpdateOrderStatusDTO::fromArray($request->validated());
+            $order = $this->updateOrderStatusUseCase->execute($orderData->orderId, $orderData->status);
 
-        $order = Order::find($request->order_id);
-
-        if (!$order) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Pedido não encontrado'
-            ], 404);
-        }
-
-        if ($request->status === 'cancelled') {
-            $this->restoreInventory($order);
-            $order->delete();
+            $message = $orderData->status === 'cancelled' 
+                ? 'Pedido cancelado e removido' 
+                : 'Status do pedido atualizado';
 
             return response()->json([
                 'success' => true,
-                'message' => 'Pedido cancelado e removido'
+                'message' => $message,
+                'order' => $order
             ]);
-        }
-
-        $order->updateStatus($request->status);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Status do pedido atualizado',
-            'order' => $order
-        ]);
-    }
-
-    private function restoreInventory(Order $order): void
-    {
-        foreach ($order->items as $item) {
-            $inventory = $item->product->inventory()
-                ->where('variation', $item->variation)
-                ->first();
-
-            if ($inventory) {
-                $inventory->increaseStock($item->quantity);
-            }
+        } catch (\InvalidArgumentException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro interno do servidor'
+            ], 500);
         }
     }
 } 

@@ -12,12 +12,9 @@
         </div>
         <div class="col-md-6">
             <h6>Endereço de Entrega</h6>
-            <p>{{ $order->address }}, {{ $order->number }}</p>
-            <p>{{ $order->neighborhood }}, {{ $order->city }} - {{ $order->state }}</p>
-            <p>CEP: {{ $order->cep }}</p>
-            @if($order->complement)
-                <p>Complemento: {{ $order->complement }}</p>
-            @endif
+            <p>{{ $order->shipping_address }}</p>
+            <p>{{ $order->shipping_city }} - {{ $order->shipping_state }}</p>
+            <p>CEP: {{ $order->shipping_zipcode }}</p>
         </div>
     </div>
     
@@ -41,8 +38,8 @@
                     <td>{{ $item->product->name }}</td>
                     <td>{{ $item->variation ?? 'N/A' }}</td>
                     <td>{{ $item->quantity }}</td>
-                    <td>R$ {{ number_format($item->price, 2, ',', '.') }}</td>
-                    <td>R$ {{ number_format($item->price * $item->quantity, 2, ',', '.') }}</td>
+                    <td>R$ {{ number_format($item->unit_price, 2, ',', '.') }}</td>
+                    <td>R$ {{ number_format($item->total_price, 2, ',', '.') }}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -54,7 +51,7 @@
     <div class="row">
         <div class="col-md-6">
             <h6>Status do Pedido</h6>
-            <span class="badge bg-{{ $order->status === 'pending' ? 'warning' : ($order->status === 'completed' ? 'success' : 'danger') }}">
+            <span class="badge bg-{{ $order->status === 'pending' ? 'warning' : ($order->status === 'confirmed' ? 'info' : ($order->status === 'shipped' ? 'primary' : ($order->status === 'delivered' ? 'success' : 'danger'))) }}">
                 {{ ucfirst($order->status) }}
             </span>
         </div>

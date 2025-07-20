@@ -49,7 +49,7 @@ class Order extends Model
         $this->save();
     }
 
-    public function calculateShippingCost(): decimal
+    public function calculateShippingCost(): float
     {
         if ($this->subtotal >= 200.00) {
             return 0.00;

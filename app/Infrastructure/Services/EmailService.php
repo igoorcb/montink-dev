@@ -11,8 +11,7 @@ class EmailService implements EmailServiceInterface
     public function sendOrderConfirmation(Order $order): void
     {
         Mail::send('emails.order-confirmation', [
-            'order' => $order,
-            'items' => $order->items
+            'order' => $order
         ], function ($message) use ($order) {
             $message->to($order->customer_email, $order->customer_name)
                    ->subject('Confirmação do Pedido #' . $order->order_number);
