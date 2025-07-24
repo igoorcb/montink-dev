@@ -1,8 +1,8 @@
--- Montink ERP Database Schema
+-- mini-erp-dev ERP Database Schema
 -- MySQL 8.0+
 
-CREATE DATABASE IF NOT EXISTS montink_erp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE montink_erp;
+CREATE DATABASE IF NOT EXISTS mini-erp-dev CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE mini-erp-dev;
 
 -- Tabela de produtos
 CREATE TABLE products (
@@ -115,4 +115,4 @@ INSERT INTO inventory (product_id, variation, quantity, min_quantity, created_at
 INSERT INTO coupons (code, description, type, value, min_amount, max_uses, valid_from, valid_until, created_at, updated_at) VALUES
 ('DESCONTO10', 'Desconto de 10% em compras acima de R$ 100', 'percentage', 10.00, 100.00, 100, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 MONTH), NOW(), NOW()),
 ('FRETE0', 'Frete grátis em compras acima de R$ 150', 'fixed', 20.00, 150.00, 50, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 MONTH), NOW(), NOW()),
-('MEGA50', 'Desconto de R$ 50 em compras acima de R$ 500', 'fixed', 50.00, 500.00, 25, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 MONTH), NOW(), NOW()); 
+('MEGA50', 'Desconto de R$ 50 em compras acima de R$ 500', 'fixed', 50.00, 500.00, 25, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 MONTH), NOW(), NOW());

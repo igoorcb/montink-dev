@@ -5,17 +5,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: montink_erp_app
+    container_name: mini_erp_app
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
       - ./:/var/www
     networks:
-      - montink_network
+      - mini_erp_network
 
   nginx:
     image: nginx:alpine
-    container_name: montink_erp_nginx
+    container_name: mini_erp_nginx
     restart: unless-stopped
     ports:
       - "8000:80"
@@ -25,17 +25,17 @@ services:
     depends_on:
       - app
     networks:
-      - montink_network
+      - mini_erp_network
 
   db:
     image: mysql:8.0
-    container_name: montink_erp_db
+    container_name: mini_erp_db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: montink_erp
+      MYSQL_DATABASE: mini_erp
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PASSWORD: password
-      MYSQL_USER: montink
+      MYSQL_USER: erp
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     ports:
@@ -43,18 +43,18 @@ services:
     volumes:
       - ./docker/mysql:/docker-entrypoint-initdb.d
     networks:
-      - montink_network
+      - mini_erp_network
 
   mailpit:
     image: axllent/mailpit:latest
-    container_name: montink_erp_mailpit
+    container_name: mini_erp_mailpit
     restart: unless-stopped
     ports:
       - "8025:8025"
       - "1025:1025"
     networks:
-      - montink_network
+      - mini_erp_network
 
 networks:
-  montink_network:
-    driver: bridge 
+  mini_erp_network:
+    driver: bridge

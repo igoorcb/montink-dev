@@ -1,4 +1,4 @@
-# Montink ERP - Mini Sistema de Gestão
+# Mini Sistema de Gestão
 
 Um mini ERP completo para controle de Pedidos, Produtos, Cupons e Estoque desenvolvido com Laravel 11, seguindo os princípios SOLID e DDD.
 
@@ -26,7 +26,7 @@ Um mini ERP completo para controle de Pedidos, Produtos, Cupons e Estoque desenv
 - ✅ Interface responsiva com tema dark
 
 ### 🎯 Regras de Negócio
-- **Frete**: 
+- **Frete**:
   - R$ 15,00 para subtotal entre R$ 52,00 e R$ 166,59
   - Grátis para subtotal acima de R$ 200,00
   - R$ 20,00 para outros valores
@@ -42,7 +42,7 @@ Um mini ERP completo para controle de Pedidos, Produtos, Cupons e Estoque desenv
 ### 1. Clone o repositório
 ```bash
 git clone <url-do-repositorio>
-cd montink-dev
+cd mini-erp-dev
 ```
 
 ### 2. Configure o ambiente

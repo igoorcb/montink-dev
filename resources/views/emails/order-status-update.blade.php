@@ -71,15 +71,15 @@
 
     <div class="content">
         <h2>Olá, {{ $order->customer_name }}!</h2>
-        
+
         <p>O status do seu pedido foi atualizado:</p>
-        
+
         <div class="order-details">
             <h3>Status Atualizado</h3>
             <span class="status-badge status-{{ $newStatus }}">
                 {{ ucfirst($newStatus) }}
             </span>
-            
+
             <h4>Detalhes do Pedido:</h4>
             <ul>
                 <li><strong>Número do Pedido:</strong> #{{ $order->order_number }}</li>
@@ -117,8 +117,7 @@
 
         <div class="footer">
             <p>Obrigado por escolher nossa loja!</p>
-            <p>Montink ERP</p>
         </div>
     </div>
 </body>
-</html> 
+</html>

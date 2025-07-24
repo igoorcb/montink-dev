@@ -65,12 +65,12 @@
 
     <div class="content">
         <h2>Olá, {{ $order->customer_name }}!</h2>
-        
+
         <div class="cancellation-notice">
             <h3>⚠️ Seu pedido foi cancelado</h3>
             <p>Infelizmente, seu pedido foi cancelado. Qualquer valor pago será reembolsado conforme nossa política de reembolso.</p>
         </div>
-        
+
         <div class="order-details">
             <h4>Detalhes do Pedido Cancelado:</h4>
             <ul>
@@ -105,8 +105,8 @@
 
         <div class="footer">
             <p>Obrigado por escolher nossa loja!</p>
-            <p>Montink ERP</p>
+            <p>Mini-erp-dev</p>
         </div>
     </div>
 </body>
-</html> 
+</html>

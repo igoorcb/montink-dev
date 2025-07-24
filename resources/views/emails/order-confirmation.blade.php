@@ -60,18 +60,18 @@
         <h1>Confirmação do Pedido</h1>
         <p>Pedido #{{ $order->order_number }}</p>
     </div>
-    
+
     <div class="content">
         <p>Olá <strong>{{ $order->customer_name }}</strong>,</p>
-        
+
         <p>Seu pedido foi recebido e está sendo processado. Abaixo estão os detalhes:</p>
-        
+
         <div class="order-details">
             <h3>Detalhes do Pedido</h3>
             <p><strong>Número do Pedido:</strong> {{ $order->order_number }}</p>
             <p><strong>Data:</strong> {{ $order->created_at->format('d/m/Y H:i') }}</p>
             <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
-            
+
             <h4>Itens do Pedido:</h4>
             @foreach($order->items as $item)
             <div class="item">
@@ -79,7 +79,7 @@
                 <span>R$ {{ number_format($item->total_price, 2, ',', '.') }}</span>
             </div>
             @endforeach
-            
+
             <div class="total">
                 <div>Subtotal: R$ {{ number_format($order->subtotal, 2, ',', '.') }}</div>
                 <div>Frete: R$ {{ number_format($order->shipping_cost, 2, ',', '.') }}</div>
@@ -89,7 +89,7 @@
                 <div>Total: R$ {{ number_format($order->total, 2, ',', '.') }}</div>
             </div>
         </div>
-        
+
         <div class="order-details">
             <h4>Endereço de Entrega:</h4>
             <p>
@@ -100,15 +100,15 @@
                 {{ $order->shipping_country }}
             </p>
         </div>
-        
+
         <p>Você receberá atualizações sobre o status do seu pedido por e-mail.</p>
-        
+
         <p>Obrigado por escolher nossos produtos!</p>
     </div>
-    
+
     <div class="footer">
-        <p>Montink ERP - Sistema de Gestão de Pedidos</p>
+        <p>Sistema de Gestão de Pedidos</p>
         <p>Este é um e-mail automático, não responda a esta mensagem.</p>
     </div>
 </body>
-</html> 
+</html>
