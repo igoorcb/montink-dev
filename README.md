@@ -6,10 +6,12 @@ Um mini ERP completo para controle de Pedidos, Produtos, Cupons e Estoque desenv
 
 - **Backend**: Laravel 11
 - **Banco de Dados**: MySQL 8.0
-- **Frontend**: Bootstrap 5 com tema dark
+- **Frontend**: Bootstrap 5
 - **Containerização**: Docker
 - **Email**: Mailpit
 - **Arquitetura**: SOLID, DDD (Domain-Driven Design)
+- **Cálculo de Frete Inteligente**: Regras de negócio flexíveis e automáticas.
+- **Webhook para Atualização de Status de Pedido**: Integração com sistemas externos, incluindo lógica de estorno de estoque para cancelamentos.
 
 ## 📋 Funcionalidades
 
